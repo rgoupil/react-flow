@@ -3,12 +3,13 @@
  * made a selectio  with on or several nodes
  */
 
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useMemo } from 'react';
 import ReactDraggable from 'react-draggable';
 
 import { useStoreState, useStoreActions } from '../../store/hooks';
 import { isNode } from '../../utils/graph';
-import { Node, XYPosition } from '../../types';
+import { Node, XYPosition, Elements } from '../../types';
+import { noop } from '../../utils';
 
 type StartPositions = { [key: string]: XYPosition };
 
@@ -31,9 +32,10 @@ export interface NodesSelectionProps {
   onSelectionDragStart?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDrag?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDragStop?: (event: MouseEvent, nodes: Node[]) => void;
+  onSelectionContextMenu?: (event: MouseEvent, elements: Elements) => void;
 }
 
-export default ({ onSelectionDragStart, onSelectionDrag, onSelectionDragStop }: NodesSelectionProps) => {
+export default ({ onSelectionDragStart, onSelectionDrag, onSelectionDragStop, onSelectionContextMenu }: NodesSelectionProps) => {
   const [offset, setOffset] = useState<XYPosition>({ x: 0, y: 0 });
   const [startPositions, setStartPositions] = useState<StartPositions>({});
 
@@ -115,6 +117,14 @@ export default ({ onSelectionDragStart, onSelectionDrag, onSelectionDragStop }: 
     }
   };
 
+  const onContextMenuHandler = useMemo(() => {
+    if (!onSelectionContextMenu) {
+      return noop;
+    }
+
+    return (event: MouseEvent) => onSelectionContextMenu(event, selectedElements);
+  }, [onSelectionContextMenu]);
+
   return (
     <div
       className="react-flow__nodesselection"
@@ -137,6 +147,7 @@ export default ({ onSelectionDragStart, onSelectionDrag, onSelectionDragStop }: 
             top: selectedNodesBbox.y,
             left: selectedNodesBbox.x,
           }}
+          onContextMenu={onContextMenuHandler}
         />
       </ReactDraggable>
     </div>

@@ -56,6 +56,7 @@ export interface ReactFlowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'on
   onSelectionDragStart?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDrag?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDragStop?: (event: MouseEvent, nodes: Node[]) => void;
+  onSelectionContextMenu?: (event: MouseEvent, elements: Elements) => void;
   onPaneClick?: (event: MouseEvent) => void;
   onPaneContextMenu?: (event: MouseEvent) => void;
   nodeTypes: NodeTypesType;
@@ -109,6 +110,7 @@ const ReactFlow = ({
   onSelectionDragStart,
   onSelectionDrag,
   onSelectionDragStop,
+  onSelectionContextMenu,
   connectionLineType,
   connectionLineStyle,
   deleteKeyCode,
@@ -184,6 +186,7 @@ const ReactFlow = ({
           onSelectionDragStart={onSelectionDragStart}
           onSelectionDrag={onSelectionDrag}
           onSelectionDragStop={onSelectionDragStop}
+          onSelectionContextMenu={onSelectionContextMenu}
         />
         {onSelectionChange && <SelectionListener onSelectionChange={onSelectionChange} />}
         {children}

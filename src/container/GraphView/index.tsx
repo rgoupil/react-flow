@@ -49,6 +49,7 @@ export interface GraphViewProps {
   onSelectionDragStart?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDrag?: (event: MouseEvent, nodes: Node[]) => void;
   onSelectionDragStop?: (event: MouseEvent, nodes: Node[]) => void;
+  onSelectionContextMenu?: (event: MouseEvent, elements: Elements) => void;
   selectionKeyCode: number;
   nodeTypes: NodeTypesType;
   edgeTypes: EdgeTypesType;
@@ -90,6 +91,7 @@ const GraphView = ({
   onSelectionDragStart,
   onSelectionDrag,
   onSelectionDragStop,
+  onSelectionContextMenu,
   connectionLineType,
   connectionLineStyle,
   selectionKeyCode,
@@ -273,6 +275,7 @@ const GraphView = ({
           onSelectionDragStart={onSelectionDragStart}
           onSelectionDrag={onSelectionDrag}
           onSelectionDragStop={onSelectionDragStop}
+          onSelectionContextMenu={onSelectionContextMenu}
         />
       )}
       <div
